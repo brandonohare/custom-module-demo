@@ -16,17 +16,20 @@ Inside the directory are `moduleDemo.c` and `Makefile`. Modules are built using 
 This will require the `module.h` functions, which can be accessed with `#include <linux/module.h>`. 
 
 There are many module functions, but the three most important (for our basic implementation, that is) are:
+
      `module_init(some_init_function)` this is used to initialize the module. Returns an integer.
+
      `module_exit(some_exit_function)` this is used to shut down the module. Any memory allocation done by the module should be freed with this function. 
-     `MODULE_LICENSE("license_name")`  the license type of you module needs to be set, as this dictates the API you can use in your module. 
+
+     `MODULE_LICENSE("license_name")`  the license type needs to be set, as this dictates the API you can use in your module. 
     
-To get access to `module.h` you have to build `moduleDemo.c` using the build script inside the kernel directory. 
-This is inside `Makefile`:
+To get access to `module.h` you have to compile `moduleDemo.c` using the build script inside the kernel directory. 
+This is inside our `Makefile`:
 ```
     make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
 ```
-As we can see, the modules Makefile for this specific distribution is used to build modules, or `.ko` files from `.c` (or `.o`) files. 
-This requires the `obj-m` flag to contain the `.o` files you want to build into the module (also inside the Makefile):
+This is used to build modules, or `.ko` files from `.c` (or `.o`) files. 
+This requires the `obj-m` flag to contain the `.o` files you want to build into the module (also inside our Makefile):
 ```
     obj-m += moduleDemo.c
 ```
